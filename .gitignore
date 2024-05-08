@@ -1,0 +1,5 @@
+media-files
+tmp/*
+tts-service
+build/bin/*
+!build/bin/.gitkeep

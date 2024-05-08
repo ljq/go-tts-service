@@ -1,0 +1,7 @@
+{
+  "serverURI": "localhost",
+  "localPort": 59443,
+  "audioPath": "/media-files/",
+  "mediaFilesRoot": "/home/wwwroot/tts-service",
+  "validTokenStr": "github.com/ljq"
+}

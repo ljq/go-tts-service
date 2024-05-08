@@ -1,0 +1,334 @@
+<!doctype html>
+<html>
+    <head>
+        <title>
+            文本转自然语音API接口 TTS测试Demo （By Jack liu, Link:
+            https://github.com/ljq）
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link
+            rel="icon"
+            href="https://www.defense.ink/img/favicon.ico"
+            type="image/x-icon"
+        />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            h1 {
+                color: #333;
+            }
+
+            .box {
+                width: 90%;
+                display: inline-block;
+                margin-top: 20px;
+                border: 1px solid #ccc;
+                padding: 10px;
+                border-radius: 10px;
+                margin: 0 auto；;
+            }
+
+            form {
+                margin-bottom: 20px;
+            }
+            #ttsForm label {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            #ttsForm label span {
+                margin-right: 10px;
+                width: 100px;
+            }
+            label {
+                font-weight: bold;
+            }
+
+            textarea {
+                width: 90%;
+            }
+
+            input {
+                width: 15%;
+            }
+
+            select {
+                min-width: 70px;
+            }
+
+            button {
+                padding: 10px 20px;
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                border-radius: 10px;
+            }
+
+            audio {
+                display: block;
+                margin-top: 10px;
+            }
+
+            #audioContainer {
+                margin-left: 20px;
+                border-radius: 10px;
+                border: 1px solid #ccc;
+                padding: 5px 20px;
+            }
+
+            .info {
+                color: #3498db;
+                margin: 15% auto;
+            }
+
+            #audio-download {
+                text-decoration: none;
+                color: green;
+                font-size: 14px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h4>
+            文本转自然语音API接口 TTS测试Demo（By Jack Liu (WebChat: labsec)
+            <a href="https://github.com/ljq">https://github.com/ljq</a>）
+        </h4>
+        <h6 style="color: tomato">
+            注意事项：(1)文件只作临时短存，超时自动清理；(2)针对大量文本内容输入(基本无字符限制)，服务器跨地区响应较慢，可多次尝试；(3)API接口调用源码后续开源。
+        </h6>
+        <div class="box">
+            <form id="ttsForm">
+                <label for="text">
+                    <span>文本(Text)：</span>
+                    <textarea
+                        id="text"
+                        name="text"
+                        placeholder="在这里输入您要转换成语音的文本（If you have any questions, contact Jack Liu, ljq@GitHub）"
+                        rows="5"
+                    >
+您好，我的主人是Jack Liu，中文名字：刘建秋，使用有问题请随时反馈，或者通过主人的开发者账号 github.com/ljq 联系。</textarea
+                    >
+                </label>
+                <label for="role">
+                    <span>角色(Role)：</span>
+                    <select id="role" name="role" size="14">
+                        <option value="zh-CN-YunxiNeural" selected>云曦</option>
+                        <option value="zh-CN-XiaoyiNeural">晓伊</option>
+                        <option value="zh-CN-XiaoxiaoNeural">筱筱</option>
+                        <option value="zh-CN-YunjianNeural">云间</option>
+                        <option value="zh-CN-YunxiaNeural">云霞</option>
+                        <option value="zh-CN-YunyangNeural">云扬</option>
+                        <option value="zh-CN-liaoning-XiaobeiNeural">
+                            辽宁-晓贝
+                        </option>
+                        <option value="zh-CN-shaanxi-XiaoniNeural">
+                            陕西-晓妮
+                        </option>
+                        <option value="zh-HK-HiuGaaiNeural">香港-晓佳</option>
+                        <option value="zh-HK-HiuMaanNeural">香港-晓曼</option>
+                        <option value="zh-HK-WanLungNeural">香港-云龙</option>
+                        <option value="zh-TW-HsiaoChenNeural">台湾-晓晨</option>
+                        <option value="zh-TW-HsiaoYuNeural">台湾-晓瑜</option>
+                        <option value="zh-TW-YunJheNeural">台湾-云哲</option>
+                    </select>
+                    <div
+                        style="width: 30%; min-height: 198px; margin-left: 15%"
+                    >
+                        <div class="info" id="audioInfo"></div>
+                        <div id="audioContainer" style="display: none">
+                            <h5 style="color: green">临时文件转换已完成 ✅</h5>
+                            <h6 style="color: #666666; font-size: 8px">
+                                请尽快试听和下载，超时自动清理
+                            </h6>
+                            <div>
+                                <audio
+                                    id="audio"
+                                    style="margin: 0 auto"
+                                    controls
+                                ></audio>
+                            </div>
+                            <div
+                                style="margin: 10px auto; color: #3498db"
+                                id="download-btn"
+                            ></div>
+                        </div>
+                    </div>
+                </label>
+                <label for="rate">
+                    <span>语速调整：</span>
+                    <select id="rate" name="rate">
+                        <option value="+0%" selected>标准</option>
+                        <option value="+10%">+ 10%</option>
+                        <option value="+20%">+ 20%</option>
+                        <option value="+30%">+ 30%</option>
+                        <option value="+40%">+ 40%</option>
+                        <option value="+50%">+ 50%</option>
+                        <option value="-50%">- 50%</option>
+                        <option value="-40%">- 40%</option>
+                        <option value="-30%">- 30%</option>
+                        <option value="-20%">- 20%</option>
+                        <option value="-10%">- 10%</option>
+                    </select>
+                </label>
+                <label for="accessToken">
+                    <span>AccessToken：</span>
+                    <input
+                        id="accessToken"
+                        name="accessToken"
+                        type="text"
+                        value="02bd6f28f95dc84cfbf22e0ce1083f77"
+                        placeholder="请输入accessToken"
+                    />
+                </label>
+                <label>
+                    <span
+                        ><div
+                            style="
+                                color: #6666;
+                                margin: 2px auto;
+                                font-size: 8px;
+                            "
+                        >
+                            声明：禁止用于非法用途！
+                        </div></span
+                    >
+                    <button type="submit">转换</button>
+                </label>
+            </form>
+        </div>
+
+        <script>
+            const form = document.getElementById("ttsForm");
+            const audioContainer = document.getElementById("audioContainer");
+            const audio = document.getElementById("audio");
+            const audioInfo = document.getElementById("audioInfo");
+
+            function getDateTime() {
+                // 创建一个表示当前时间的 Date 对象
+                var now = new Date();
+
+                // 获取年、月、日、时、分、秒
+                var year = now.getFullYear();
+                var month = String(now.getMonth() + 1).padStart(2, "0");
+                var day = String(now.getDate()).padStart(2, "0");
+                var hour = String(now.getHours()).padStart(2, "0");
+                var minute = String(now.getMinutes()).padStart(2, "0");
+                var second = String(now.getSeconds()).padStart(2, "0");
+
+                // 格式化日期和时间字符串
+                var formattedDateTime =
+                    year +
+                    "-" +
+                    month +
+                    "-" +
+                    day +
+                    "-" +
+                    hour +
+                    minute +
+                    second +
+                    "-";
+
+                return formattedDateTime;
+            }
+
+            function appendLinkAfter(element, linkUrl, linkFileName) {
+                // 创建 <a> 标签
+                const link = document.createElement("a");
+                link.href = linkUrl;
+                link.download = linkFileName;
+                link.style.color = "green";
+                link.style.textDecoration = "underline";
+                link.style.cursor = "pointer";
+                link.style.fontWeight = "bold";
+                link.textContent = "下载文件(.mp3)";
+                element.innerHTML = "";
+                // 将链接插入到 element 元素
+                element.appendChild(link, element.nextSibling);
+            }
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const text = document.getElementById("text").value;
+                const role = document.getElementById("role").value;
+                const rate = document.getElementById("rate").value;
+                const accessToken =
+                    document.getElementById("accessToken").value;
+
+                const formData = new FormData();
+                if (text == "") {
+                    alert("请输入要转换的文本！");
+                    return false;
+                }
+
+                // 清空tip和audio
+                document.getElementById("audioInfo").innerHTML = "";
+                document.getElementById("audioContainer").style.display =
+                    "none";
+
+                formData.append("text", text);
+                formData.append("access_token", accessToken);
+                formData.append("role", role);
+                formData.append("rate", rate);
+
+                document.getElementById("audioInfo").innerHTML =
+                    "🔊 转换中，请稍后 ... ...";
+
+                fetch("https://tts-api.wdft.com/tts", {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        Origin: "localhost",
+                    },
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const audioUrl = data.audio_url;
+                        if (audioUrl) {
+                            audio.src = audioUrl;
+
+                            // 监听音频加载完成事件
+                            audio.addEventListener("canplaythrough", () => {
+                                //console.log('音频加载完成');
+                                document.getElementById("audioInfo").innerHTML =
+                                    "";
+                                // 在这里执行加载完成后的操作
+                                audioContainer.style.display = "block";
+                                audio.play();
+                                // 下载链接赋值
+                                mediaFileName = getDateTime() + role + ".mp3";
+                                downloadBtn =
+                                    document.getElementById("download-btn");
+                                appendLinkAfter(
+                                    downloadBtn,
+                                    audioUrl,
+                                    mediaFileName,
+                                );
+                            });
+
+                            // 监听音频加载错误事件
+                            audio.addEventListener("error", (event) => {
+                                //console.error('音频加载出错，请重新尝试!', event);
+                                // 在这里处理加载错误的情况
+                                document.getElementById("audioInfo").innerHTML =
+                                    "转换失败，请重新尝试！";
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        //console.error("请求失败:", error);
+                        document.getElementById("audioInfo").innerHTML =
+                            "<span style='color:red;'>生成失败，请重新尝试！<br />请检查token是否经过授权！</span>";
+                    });
+            });
+        </script>
+    </body>
+</html>
