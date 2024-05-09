@@ -41,7 +41,7 @@ config.json:
 [build]
 cmd = "env GOOS=linux GOARCH=amd64 go build -o ./build/bin/tts-service tts_service.go"
 
-# 启动命令
+# port
 [run]
 port = "8081"
 ```
