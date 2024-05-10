@@ -1,0 +1,16 @@
+[Unit]
+Description=TTS Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/data/edge-tts/tts-service
+Restart=always
+RestartSec=3
+StartLimitInterval=0
+StartLimitBurst=5
+User=<your_username>
+Group=<your_group>
+
+[Install]
+WantedBy=multi-user.target
