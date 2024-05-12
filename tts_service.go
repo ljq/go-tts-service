@@ -84,11 +84,6 @@ func generateSpeechText(text string, role string, rate string) (string, error) {
 		return result, nil
 	}
 
-	// cmd debug info(debug only)
-	//fmt.Println("[text]：" + text)
-	//fmt.Println("[role]：" + role)
-	//fmt.Println("[rate]：" + rate)
-
 	// check cmd
 	_, err := exec.LookPath("edge-tts")
 	if err != nil {
