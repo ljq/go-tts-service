@@ -4,7 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"jackliu-tts-service/config"
+	"go-tts-service/config"
 	"log"
 	"net/http"
 	"os"
