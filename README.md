@@ -32,14 +32,14 @@ config.json:
 
 **systemd: tts-service.service**
 
-
 ```
 #/etc/systemd/system/tts-service.service
 
-启动服务：sudo systemctl start tts-service
-停止服务：sudo systemctl stop tts-service
-重启服务：sudo systemctl restart tts-service
-查看服务状态：sudo systemctl status tts-service
+Start up:：sudo systemctl anable tts-service
+Start service: sudo system ctl start tts service
+Stop service: sudo system ctl stop tts service
+Restart service: sudo system ctl restart tts service
+View service status: sudo system ctl status tts service
 ```
 
 **Recommended tool for hot update debugging and building: air：**

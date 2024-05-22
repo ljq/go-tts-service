@@ -32,7 +32,6 @@ config.json:
 
 ```
 
-
 **systemd: tts-service.service**
 
 ```
@@ -43,9 +42,8 @@ config.json:
 启动服务：sudo systemctl start tts-service
 停止服务：sudo systemctl stop tts-service
 重启服务：sudo systemctl restart tts-service
-查看服务状态：sudo systemctl status tts-service
+查看服状态：sudo systemctl status tts-service
 ```
-
 
 **热更新调试、构建推荐使用air：**
 
